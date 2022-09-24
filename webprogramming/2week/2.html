@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script language="JavaScript">
+        window.onload = function () {
+            let text1 = document.getElementById("d1");
+            let text2 = document.getElementById("d2");
+            text1.onclick = function () {
+                text1.style.color = 'gray';
+                text1.style.background = 'black';
+            }
+
+            text2.onclick = function () {
+                let text3 = document.createTextNode('div2의 영역이죠div2의 영역이죠');
+                text2.appendChild(text3);
+            }
+
+            let bgImg = document.createElement('img');
+            bgImg.setAttribute("src", "./back.jpg");
+            document.body.appendChild(bgImg);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="d1">여긴 DIV1 영역</div>
+    <div id="d2">여긴 DIV2 영역</div>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        #mapImg{position:absolute; left:250; top:250; visibility:hidden;}
+    </style>
+    <script language="JavaScript">
+        function layer(v) {
+                if (v == "off")
+                    mapImg.style.visibility = "hidden";
+                else
+                    mapImg.style.visibility = "visible";
+            }
+    </script>
+</head>
+
+<body> 
+    <input type="radio" name="showOrHide" value="off" onclick="layer(this.value);">숨기기
+    <input type="radio" name="showOrHide" value="on" onclick="layer(this.value);">보이기
+    <div id="mapImg">
+        <img src="map.jpg">
+    </div>
+</body>
+
+</html>
