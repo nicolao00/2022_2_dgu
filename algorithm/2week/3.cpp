@@ -102,6 +102,7 @@ int main(){
         } stack.push(x);
     } 
     findChar=cin.get();
+    if(findChar<'A'|| findChar>'Z') return 0;
     traverse(stack.pop());          // 이거 걍 다 만들어져있으니까 traverse만 수정하면됨.
     cout << endl;
     return 0;
