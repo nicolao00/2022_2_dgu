@@ -1,24 +1,15 @@
 #include <iostream>
 using namespace std;
 struct treeNode { char info; struct treeNode *l, *r; }; 
-treeNode *x, *z, *temp;                     // z: 피연산자일 경우 node->l,r가 가리키는 값
+treeNode *x, *z;                     // z: 피연산자일 경우 node->l,r가 가리키는 값
 typedef treeNode* itemType;          
 
-char findChar;
+char findChar;          // 찾고자 하는 피연산자(입력값)
 
 class Stack{
     public:
         Stack(int max=100) { stack=new itemType[max]; p=0; };
-        //lab1 참조
-        // ~Stack() {
-        //     for(int i=0;i<50;i++){
-        //         x=pop(); delete x->l; delete x->r;
-        //         while(x->l){
-        //             temp=x->l;
-        //         }
-        //         delete x;           // 이거되나근데????????????????????????
-        //     }
-        // } 
+        ~Stack(){ delete stack; }
 
         inline void push(itemType v) { stack[p++] = v; }
         inline itemType pop() {
@@ -35,15 +26,15 @@ class Stack{
 class Queue{
     private:
     itemType *queue;
-    int head, tail, size,                   nowLv;
+    int head, tail, size, nowLv; // nowLv: 현재 트리의 레벨 
 
     public:
-    Queue(int max=100) {queue=new itemType[max]; head=tail=0; size=100;         nowLv=1;};
+    Queue(int max=100) {queue=new itemType[max]; head=tail=0; size=100; nowLv=1;};
     void put(itemType v);
     itemType get();
     int empty();
-    void upLv() {nowLv++;} ///////////
-    void getLv() {cout<<nowLv+1<<endl;}
+    void upLv() {nowLv++;}      // 트리의 레벨 +1
+    void getLv() {cout << nowLv + 1 << endl;}     // 트리 레벨 반환 (자식노드가 찾는 값과 일치하는지 찾는 용도로 쓰이니 LV+1 해서 출력)
 };
 
 Queue queue(100);
@@ -64,25 +55,25 @@ int Queue::empty() { return head == tail; }
 void traverse(struct treeNode *t) {
     queue.put(t); 
     
-    int idx=1, bothOp=0;      // 트리의 첫노드는 무조건 연산자라 idx 1로 시작, bothOp=자식노드가 모두 Op냐?
+    //idx: 해당 레벨의 노드 개수 (올바른 트리의 첫노드는 연산자로 시작하기 때문에 idx 1로 시작)
+    int idx=1, nextidx=0;      //nextidx: 다음 레벨의 큐 개수를 카운트하는 변수
     while (!queue.empty()){ 
         t = queue.get(); idx--;
         if (t->l != z) {
             if(t->l->info == findChar) {queue.getLv(); return;}
-            queue.put(t->l); 
+            queue.put(t->l); nextidx++; // 다음 레벨의 노드를 큐에 put했으니 nextidx++
         }
         if (t->r != z) {
             if(t->r->info == findChar) {queue.getLv(); return;}
-            queue.put(t->r); 
+            queue.put(t->r); nextidx++;
         }
-        if (t->l != z && t->r != z) bothOp++;   // 자식이 두개면 피연산자란 말이니 bothOp++함. 그래서 bothOp가 2가되면 부모가 모두 연산자란 말.
-        if(idx==0) {
+
+        if(idx==0) {    //idx == 0 이란건 해당 레벨은 모두 순회한 것. 
             queue.upLv();
-            if(bothOp==2) idx=2+bothOp;      // 트리의 노드는 무조건 2개인데 자식노드 둘다 연산자였을 경우는 +2개
-            else idx=2;
-            bothOp=0;
+            idx = nextidx;
+            nextidx=0;
         }
-    } cout<<"Not Found"<<endl;
+    } cout<<"Not Found"<<endl;  // 찾는 값을 못찾으면 출력
 }
 
 int main(){
@@ -102,8 +93,8 @@ int main(){
         } stack.push(x);
     } 
     findChar=cin.get();
-    if(findChar<'A'|| findChar>'Z') return 0;
-    traverse(stack.pop());          // 이거 걍 다 만들어져있으니까 traverse만 수정하면됨.
+    if(findChar<'A'|| findChar>'Z') return 0;   // 찾는 값이 영문 대문자가 아닐 경우 종료
+    traverse(stack.pop());      
     cout << endl;
     return 0;
 }

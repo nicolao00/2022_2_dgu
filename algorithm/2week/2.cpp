@@ -7,16 +7,7 @@ typedef treeNode* itemType;
 class Stack{
     public:
         Stack(int max=100) { stack=new itemType[max]; p=0; };
-        //lab1 참조
-        // ~Stack() {
-        //     for(int i=0;i<50;i++){
-        //         x=pop(); delete x->l; delete x->r;
-        //         while(x->l){
-        //             temp=x->l;
-        //         }
-        //         delete x;           // 이거되나근데????????????????????????
-        //     }
-        // } 
+        ~Stack(){ delete stack; }
 
         inline void push(itemType v) { stack[p++] = v; }
         inline itemType pop() {
@@ -42,7 +33,7 @@ class Queue{
     int empty();
 };
 
-Queue queue(100);
+Queue queue(100);   //레벨 순회를 위해 이용할 큐
 
 void visit(struct treeNode *t) { cout << t->info << " ";} 
 
@@ -59,6 +50,7 @@ itemType Queue::get(){
 
 int Queue::empty() { return head == tail; } 
 
+//큐는 선입선출의 특징을 가지고 있어 한 레벨의 값이 전부 출력된 뒤 그 다음 레벨이 출력됨.(즉 ,레벨 순회방식으로 값이 출력됨.)
 void traverse(struct treeNode *t) 
 { 
     queue.put(t); 
@@ -87,7 +79,7 @@ int main()
             x->l = stack.pop();
         } stack.push(x);
     }
-    traverse(stack.pop());          // 이거 걍 다 만들어져있으니까 traverse만 수정하면됨.
+    traverse(stack.pop());         
     cout << endl;
     return 0;
 }

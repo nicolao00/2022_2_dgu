@@ -2,22 +2,13 @@
 using namespace std;
 
 struct treeNode { char info; struct treeNode *l, *r; }; 
-treeNode *x, *z, *temp;                     // z: 피연산자일 경우 node->l,r가 가리키는 값
+treeNode *x, *z;                     // z: 피연산자일 경우 treeNode->l,r가 가리키는 값
 typedef treeNode* itemType;          
 
 class Stack{
     public:
         Stack(int max=100) { stack=new itemType[max]; p=0; };
-        //lab1 참조
-        // ~Stack() {
-        //     for(int i=0;i<50;i++){
-        //         x=pop(); delete x->l; delete x->r;
-        //         while(x->l){
-        //             temp=x->l;
-        //         }
-        //         delete x;           // 이거되나근데????????????????????????
-        //     }
-        // } 
+        ~Stack(){ delete stack; }
 
         inline void push(itemType v) { stack[p++] = v; }
         inline itemType pop() {
@@ -31,16 +22,19 @@ class Stack{
        int p;
 };
 
+// 노드의 값을 출력하는 함수
 void visit(struct treeNode *t) { 
     cout << t->info << " ";
-} 
+}
+
+//중위 순회 방식이니 왼쪽 자식 -> 중간(부모노드) -> 오른쪽 자식 순으로 값 출력함.
 void traverse(struct treeNode *t){ 
     if (t != z){
        traverse(t->l); 
        visit(t);
        traverse(t->r); 
     } 
-} 
+}
 
 int main()
 {
@@ -53,7 +47,7 @@ int main()
         while (c == ' ') cin.get(c);
         x = new treeNode;
         x->info = c;
-        x->l = z; x->r = z;                     // 피연산자일 경우 l,r이 z를 가르킴
+        x->l = z; x->r = z;                     // 입력값이 피연산자일 경우 l,r이 z를 가르킴
         if (c == '+' || c == '*' || c == '-'){
             x->r = stack.pop();
             x->l = stack.pop();
