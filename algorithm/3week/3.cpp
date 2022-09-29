@@ -4,19 +4,31 @@ using namespace std;
 
 typedef int itemType;
 
-int N; int comp[2], change[2]; 
+int N; int comp[2], change[2], idx=0; 
 itemType *B; 
 
-void insertion(itemType a[],  int n, int idx) 
-{ 
-    int i, j; itemType v; 
-    for (i = 1; i < n; i++) { 
-       v = a[i]; j = i; 
-       while (comp[idx]++ == -1 || (j>0 && a[j-1] > v)) { a[j] = a[j-1]; j--; change[idx]++;} 
-       a[j] = v; if(j!=i) change[idx]++; // if(j!=i) 있어야하지않나?
-     } 
+int Bubble(int sorted, itemType *a, int n) 
+{
+   int temp;
+   if (comp[idx]++==-1 ||*(a-1) > *a) {
+       temp = *(a-1); 
+       *(a-1) = *a; change[idx]++;
+       *a = temp; change[idx]++;    
+       sorted = false; 
+   }
+   return sorted;
 }
 
+void bubbleSort(itemType a[], int n) 
+{ 
+    int i, Sorted; 
+    Sorted = false; 
+    while ( !Sorted ) {
+       Sorted = true;
+       for ( i=1; i<n; i++ )
+          Sorted = Bubble( Sorted, &a[i], n );
+    }
+}
 
 void sort(itemType **a, int n) 
 {
@@ -50,7 +62,7 @@ int main(){
     
     cout<<"Data B: ";
     for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
-    insertion(A, N, 0); insertion(B, N, 1);
+    bubbleSort(A, N); idx++; bubbleSort(B, N);
     
     cout<<"SortedData A: ";
     for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;

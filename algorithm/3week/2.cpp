@@ -4,19 +4,23 @@ using namespace std;
 
 typedef int itemType;
 
-int N; int comp[2], change[2]; 
+int N; int comp[2], change[2], idx=0; 
 itemType *B; 
 
-void insertion(itemType a[],  int n, int idx) 
+void shellSort(itemType a[], int n) 
 { 
-    int i, j; itemType v; 
-    for (i = 1; i < n; i++) { 
-       v = a[i]; j = i; 
-       while (comp[idx]++ == -1 || (j>0 && a[j-1] > v)) { a[j] = a[j-1]; j--; change[idx]++;} 
-       a[j] = v; if(j!=i) change[idx]++; // if(j!=i) 있어야하지않나?
-     } 
+    int i, j, h; itemType v; 
+    h = 1;  do h = 3*h +1; while (h < n); 
+    do {
+       h = h / 3;
+       for (i = h; i < n; i++){ 
+          v = a[i]; j = i; 
+          while (comp[idx]++ == -1 || a[j-h] > v)  
+          { a[j] = a[j-h]; change[idx]++; j -= h;  if (j <= h-1) break; } // h-1 생각해보기 아닌듯? h=1일떄가 있어서
+          a[j] = v; if(j!=i)change[idx]++;  //if(j!=i) 있어야하는거 아닌가?
+      } 
+    } while (h > 1);
 }
-
 
 void sort(itemType **a, int n) 
 {
@@ -50,7 +54,7 @@ int main(){
     
     cout<<"Data B: ";
     for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
-    insertion(A, N, 0); insertion(B, N, 1);
+    shellSort(A, N); idx++; shellSort(B, N);
     
     cout<<"SortedData A: ";
     for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;
