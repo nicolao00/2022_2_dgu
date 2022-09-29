@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            #box{ width:100px; height: 100px; background-color: blue;
+            margin-left: 10px; margin-bottom: 10px;
+        }
+        </style>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#increase').click(function () {
+                    $("#box").css('width', 200);
+                });
+                $("#decrease").click(function () {
+                    $("#box").css('width', 50);
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="box"></div>
+        <button id="increase">상자 확대</button>
+        <button id="decrease">상자 축소</button>
+    </body>
+</html>
