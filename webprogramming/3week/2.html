@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#start").click(function(){
+                    $("#jpg").fadeIn('slow').fadeOut().show('slow');
+                });
+
+                $("#stop").click(function(){
+                    $("#jpg").hide('slow');
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <button id="start">시작</button>
+        <button id="stop">정지</button>
+        <p><img src="./1.PNG" id="jpg" style="display:none"></p>
+    </body>
+</html>

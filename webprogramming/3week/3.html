@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $("#link").click(function(){
+                    $('a').attr('href', "https://lib.dongguk.edu");
+                });
+
+                $("#picture").click(function(){
+                    $("#jpg").attr('src', './2.PNG');
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <a href="https://www.dongguk.edu">페이지로 이동</a>
+        <button id="link">URL 변경</button>
+        <p><img src="./1.PNG" id="jpg"><br>
+        <button id="picture">사진 변경</button>
+    </body>
+</html>
