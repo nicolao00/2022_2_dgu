@@ -7,11 +7,11 @@ int weight[3], idx=0;
 
 void insertion(itemType a[],  int n) 
 { 
-    int i, j; itemType v; 
-    for (i = 1; i < n; i++) { 
-       v = a[i]; j = i; 
-       while (j>0 && a[j-1] > v) { a[j] = a[j-1]; weight[idx] += a[j-1]; j--;} // a[j] = a[j-1]의 이동에서 a[j-1] 무게만큼 더함.
-       a[j] = v; if(i!=j) weight[idx] += 2*v;       //i!=j라는 말은 while문을 들어갔다는 뜻이니 이동이 있었다는 의미 이므로 + 2*v
+    int i, j; itemType v;
+    for (i = 1; i < n; i++) {
+       v = a[i]; j = i;
+       while (j>0 && a[j-1] > v) { a[j] = a[j-1]; weight[idx] += a[j-1]; j--;}
+       a[j] = v; if(i!=j) weight[idx] += 2*v;
      } 
 }
 
@@ -25,7 +25,7 @@ void shellSort(itemType a[], int n)
           v = a[i]; j = i; 
           while (a[j-h] > v)  
           { a[j] = a[j-h]; weight[idx] += a[j-h]; j -= h;  if (j <= h-1) break; }
-          a[j] = v; if(i!=j) weight[idx] += 2*v;    // 얘도 insertion 처럼 이렇게 나와야하지않나?
+          a[j] = v;  weight[idx] += 2*v;
       } 
     } while (h > 1);
 }
@@ -34,8 +34,8 @@ int Bubble(int sorted, itemType *a, int n)
 {
    int temp;
    if ( *(a-1) > *a) {         
-       temp = *a;  weight[idx]+= 2 * *a;    //작은 값을 먼저 뺴는 방식으로 수정
-       *a=*(a-1);  weight[idx]+=*(a-1);     //큰값을 작은값에 한번 옮김
+       temp = *a;  weight[idx]+= 2 * *a;
+       *a=*(a-1);  weight[idx]+=*(a-1);
        *(a-1) = temp; 
        sorted = false; 
    }

@@ -16,9 +16,9 @@ void shellSort(itemType a[], int n)
        for (i = h; i < n; i++){ 
           v = a[i]; j = i; 
           while (comp[idx]++ == -1 || a[j-h] > v)  
-          { a[j] = a[j-h]; change[idx]++; j -= h;  if (j <= h-1) break; } // h-1 생각해보기 아닌듯? h=1일떄가 있어서
-          a[j] = v; if(j!=i)change[idx]++;  //if(j!=i) 있어야하는거 아닌가?
-      } 
+          { a[j] = a[j-h]; change[idx]++; j -= h;  if (j <= h-1) break; }
+          a[j] = v; if(j!=i) change[idx]+=2; 
+      }
     } while (h > 1);
 }
 
@@ -49,18 +49,13 @@ int main(){
     for(int i=0; i<N; i++) delete[] tmp[i];
     delete[] tmp;
     
-    cout<<"Data A: ";
-    for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;    
-    
-    cout<<"Data B: ";
-    for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
     shellSort(A, N); idx++; shellSort(B, N);
     
     cout<<"SortedData A: ";
-    for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<A[i]<<' ';} cout<<endl;
     cout<<"SortedData B: ";
+    for(int i=0;i<20;i++){cout<<B[i]<<' ';} cout<<endl;
 
-    for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
     cout<<"Compare_Cnt_A " <<comp[0]<< ", DataMove_Cnt_A "<<change[0]<<endl;
     cout<<"Compare_Cnt_B " <<comp[1]<< ", DataMove_Cnt_B "<<change[1]<<endl;
 }

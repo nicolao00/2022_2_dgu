@@ -9,14 +9,15 @@ itemType *B;
 
 int Bubble(int sorted, itemType *a, int n) 
 {
-   int temp;
-   if (comp[idx]++==-1 ||*(a-1) > *a) {
-       temp = *(a-1); 
+    int temp;
+    if (*(a-1) > *a) {
+       comp[idx]++;
+       temp = *(a-1); change[idx]++;
        *(a-1) = *a; change[idx]++;
-       *a = temp; change[idx]++;    
-       sorted = false; 
-   }
-   return sorted;
+       *a = temp; change[idx]++;
+       sorted = false;
+    }
+    return sorted;
 }
 
 void bubbleSort(itemType a[], int n) 
@@ -57,18 +58,13 @@ int main(){
     for(int i=0; i<N; i++) delete[] tmp[i];
     delete[] tmp;
     
-    cout<<"Data A: ";
-    for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;    
-    
-    cout<<"Data B: ";
-    for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
     bubbleSort(A, N); idx++; bubbleSort(B, N);
     
     cout<<"SortedData A: ";
-    for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<A[i]<<' ';} cout<<endl;
     cout<<"SortedData B: ";
+    for(int i=0;i<20;i++){cout<<B[i]<<' ';} cout<<endl;
 
-    for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
     cout<<"Compare_Cnt_A " <<comp[0]<< ", DataMove_Cnt_A "<<change[0]<<endl;
     cout<<"Compare_Cnt_B " <<comp[1]<< ", DataMove_Cnt_B "<<change[1]<<endl;
 }

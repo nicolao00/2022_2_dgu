@@ -4,19 +4,23 @@ using namespace std;
 
 typedef int itemType;
 
-int N; int comp[2], change[2]; 
+int N; int comp[2], change[2];  // comp: 비교횟수 저장하는 배열(idx=0: A 1: B), change: 자료이동 횟수
 itemType *B; 
 
-void insertion(itemType a[],  int n, int idx) 
-{ 
-    int i, j; itemType v; 
-    for (i = 1; i < n; i++) { 
-       v = a[i]; j = i; 
-       while (comp[idx]++ == -1 || (j>0 && a[j-1] > v)) { a[j] = a[j-1]; j--; change[idx]++;} 
-       a[j] = v; if(j!=i) change[idx]++; // if(j!=i) 있어야하지않나?
-     } 
+void insertion(itemType a[],  int n, int idx){
+    int i, j;
+    itemType v;
+    for (i = 1; i < n; i++){
+        v = a[i]; j = i;
+        while (comp[idx]++ == -1 || (a[j - 1] > v)){ // 비교연산이 실행될때 comp++
+            a[j] = a[j - 1]; change[idx]++; 
+            j--; 
+            if(j==0) break;
+        }
+        a[j] = v;
+        if (j != i) change[idx] += 2; // j == i라면 while문을 한번도 돌지않은 경우(자료이동x)이니 j!=i일때만 자료이동 + 2 해줌
+    }
 }
-
 
 void sort(itemType **a, int n) 
 {
@@ -44,19 +48,13 @@ int main(){
     sort(tmp, N);
     for(int i=0; i<N; i++) delete[] tmp[i];
     delete[] tmp;
-    
-    cout<<"Data A: ";
-    for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;    
-    
-    cout<<"Data B: ";
-    for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
+
     insertion(A, N, 0); insertion(B, N, 1);
     
     cout<<"SortedData A: ";
-    for(int i=0;i<N;i++){cout<<A[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<A[i]<<' ';} cout<<endl;
     cout<<"SortedData B: ";
-
-    for(int i=0;i<N;i++){cout<<B[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<B[i]<<' ';} cout<<endl;
     cout<<"Compare_Cnt_A " <<comp[0]<< ", DataMove_Cnt_A "<<change[0]<<endl;
     cout<<"Compare_Cnt_B " <<comp[1]<< ", DataMove_Cnt_B "<<change[1]<<endl;
 }
