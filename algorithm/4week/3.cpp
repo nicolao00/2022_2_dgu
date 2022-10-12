@@ -29,6 +29,7 @@ int main(){
 
     while (getline(fin, str)){                   // fin에 있는 내용 str에 저장
         cha = str.c_str();
+        // 공백문자 5개?도 마저 적어야함.
         tmp = strtok((char*)cha, " /t/n!\"#$%&'()*+,-./:;<=>?@[\\]^_'{|}~"); // cha의 내용을 단어로 분리하여 tmp에 저장
         while (tmp != NULL){                
             int i;
