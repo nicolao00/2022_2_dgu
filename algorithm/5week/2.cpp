@@ -24,7 +24,7 @@ void CountSort(itemType *a, itemType *b, int n, int k) {
     for (i = 0; i < n; i++) N[a[i]] = N[a[i]] + 1;
     for (i = 2; i <= k; i++) N[i] = N[i] + N[i - 1];
     for (j = n - 1; j >= 0; j--){
-        b[N[a[j]]] = a[j];
+        b[N[a[j]]] = a[j];       change[idx]++;
         N[a[j]] = N[a[j]] - 1;
     }
     for (int i = 0; i < n; i++) a[i] = b[i];

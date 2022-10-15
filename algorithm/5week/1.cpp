@@ -43,7 +43,7 @@ public:
         RightSon = LeftSon + 1;
         while (LeftSon <= LastNode){    // 왜 등호를 안붙이면 이상하게 나올까
             // 마지막 노드가 오른쪽 자식보다 크거나 같고, 오른쪽 자식이 왼쪽 자식보다 커
-            if (++comp[idx] && RightSon <= LastNode && a[LeftSon] < a[RightSon])
+            if (RightSon <= LastNode && ++comp[idx] && a[LeftSon] < a[RightSon])
                 Son = RightSon;
             else Son = LeftSon;
             //  부모값이 자식값보다 작다
