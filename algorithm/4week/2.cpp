@@ -24,7 +24,7 @@ void merge(itemType a[], int l, int mid, int r) {
       while (i<=mid && j<=r) { 
             if (comp[idx]++ == -1 || a[i] <= a[j]) {
                   sorted[k++] = a[i++]; change[idx]++;
-             } else { 
+            } else { 
                    sorted[k++] = a[j++]; change[idx]++;
             } 
        } 

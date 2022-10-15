@@ -10,7 +10,7 @@ void insertion(int n){
     int i, j; int v; string str;
     for (i = 1; i < n; i++){
         v = count[i]; str = word[i]; j = i;
-        while ((count[j - 1] < v)){ 
+        while ((count[j - 1] < v)){
             count[j] = count[j - 1]; 
             word[j] = word[j-1];
             j--; 
@@ -18,7 +18,20 @@ void insertion(int n){
         }
         count[j] = v; word[j] = str;
     }
-} // 레벨에 따라 asci 정렬하는 코드 짜야함 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+}
+
+void strinsertion(int n){
+    int i, j; string str; int level;
+    for (i = 1; i < n; i++){
+        str = word[i]; j = i; level=count[i];
+        while (strcmp(word[j-1].c_str(), str.c_str()) > 0 && count[j-1] == level){
+            word[j] = word[j-1];
+            j--; 
+            if(j==0) break;
+        }
+        word[j] = str;
+    }
+}
 
 int main(){
     string str; const char* cha; char *tmp; int idx=0;
@@ -29,8 +42,8 @@ int main(){
 
     while (getline(fin, str)){                   // fin에 있는 내용 str에 저장
         cha = str.c_str();
-        // 공백문자 5개?도 마저 적어야함.
-        tmp = strtok((char*)cha, " /t/n!\"#$%&'()*+,-./:;<=>?@[\\]^_'{|}~"); // cha의 내용을 단어로 분리하여 tmp에 저장
+    
+        tmp = strtok((char*)cha, " \t\n\v\f\r!\"#$%&'()*+,-./:;<=>?@[\\]^_'{|}~"); // cha의 내용을 단어로 분리하여 tmp에 저장
         while (tmp != NULL){                
             int i;
             for(i=0;i<idx;i++){
@@ -38,12 +51,10 @@ int main(){
             }
             // for문을 다 돌았고 마지막 word가 tmp가 아니다 == 중복단어가 없다.
             if(i==idx && word[i-1]!=tmp){string s(tmp); word[idx]=s; count[idx++]++;}
-            tmp = strtok(NULL, " /t/n!\"#$%&'()*+,-./:;<=>?@[\\]^_'{|}~");
+            tmp = strtok(NULL, " \t\n\v\f\r!\"#$%&'()*+,-./:;<=>?@[\\]^_'{|}~");
         }
     }
-    for(int i=0;i<idx;i++) cout<<word[i]<<" : "<<count[i]<<endl;
-    cout<<endl<<endl<<"SORT"<<endl<<endl;
-    insertion(idx);
+    insertion(idx); strinsertion(idx);
     for(int i=0;i<idx;i++) cout<<word[i]<<" : "<<count[i]<<endl;
     fin.close();
 }

@@ -7,8 +7,7 @@ typedef int itemType;
 int N; int comp[2], change[2], idx;  // comp: 비교횟수 저장하는 배열(idx=0: A 1: B), change: 자료이동 횟수
 itemType *B; 
 
-void sort(itemType **a, int n) 
-{
+void sort(itemType **a, int n) {
     int i, j; itemType v, v2;
     for (i = 1; i < n; i++) { 
        v = a[i][0]; v2 = a[i][1]; j = i; 
@@ -27,8 +26,10 @@ int partition(itemType a[], int l, int r) {
     if (r > l) { 
        v = a[l]; i = l; j = r+1;
        for (;;) { 
-          while (++i <= r && ++comp[idx] && a[i] < v) ; // 비교연산 발생 맨앞조건 확인해볼것!!
-          while (--j > l && ++comp[idx] && a[j] > v) ; // 비교연산 발생 맨앞조건 확인해볼것!!
+            // a[l]보다 a[i] 가 작으면 계속 ++i
+          while (++i <= r && ++comp[idx] && a[i] < v) ; // 비교연산 발생 (++i > r인 경우는 비교하고자하는 범위를 벗어난 경우이므로 무시)
+            // a[l]보다 a[j] 가 크면 계속 --j
+          while (--j > l && ++comp[idx] && a[j] > v) ; // 비교연산 발생 (--j <= l인 경우는 비교하고자하는 범위를 벗어난 경우이므로 무시)
           if (i >= j) break; 
              swap(a, i, j); 
        } 
@@ -45,7 +46,6 @@ void quicksort(itemType a[], int l, int r) {
        quicksort(a, j+1, r); 
     } 
 }
-
 
 int main(){
     cin>>N;
