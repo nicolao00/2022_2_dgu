@@ -7,7 +7,7 @@ typedef double infoType;
 
 using namespace std;
 
-int N; double comp=0;  // N: 자료의 크기 comp: 비교횟수 저장하는 변수
+int N; double comp=0; int idx=0;  // comp: 비교횟수 저장하는 배열 idx: A배열 재배치될때 배열의 인덱스
 itemType *A; 
 
 void sort(itemType **a, int n){
@@ -38,6 +38,14 @@ class BST {
         ~BST(){}
         infoType BSTsearch(itemType v);
         void BSTinsert(itemType v, infoType info);
+        void traverse() { traverse(head->r); }
+        void traverse(struct node *t) {
+            if (t != z) {
+                traverse(t->l);
+                A[idx++]=t->key;    // 중위 순회하면서 배열을 재배치 시키는 구문
+                traverse(t->r);
+            }
+        }
 };
 
 infoType BST::BSTsearch(itemType v) {
@@ -51,8 +59,6 @@ infoType BST::BSTsearch(itemType v) {
 void BST::BSTinsert(itemType v, infoType info) {
      struct node *p, *x;
      p = head; x = head->r;
-     // x가 z(마지막 노드)일때까지 반복.
-     // v(추가하려는 값)이 x->key보다 작으면 x의 왼쪽 자식, 크거나 같으면 x의 오른쪽 자식쪽으로 x 이동
      while (x != z) { p = x; x = (v < x->key) ? x->l : x->r; }
      x = new node(v, info, z, z);
      if (v < p->key) p->l = x; else p->r = x;
@@ -63,18 +69,27 @@ int main(){
     A = new itemType[N];
     itemType *temp = new itemType[N]; itemType **tmp = new itemType*[N];   //tmp : B를 생성하기 위한 이중포인터
     srand((unsigned)time(NULL)); 
-    BST T1(10000);
+    BST T1(N+1);
 
     for(int i=0;i<N;i++){
         tmp[i]=new int[2];
         tmp[i][0]=1+rand()%N;
         tmp[i][1]=i+1;
-    }
+    } 
     
     sort(tmp, N); 
     for(int i=0; i<N; i++) delete[] tmp[i];
     delete[] tmp;
+
     for(int i=0;i<N;i++) T1.BSTinsert(A[i], 0.1);
     for(int i=0;i<N;i++) T1.BSTsearch(A[i]);
-    cout<<comp/N<<endl;     // 평균비교회수 = 자료탐색을 위한 키의 비교회수 합계 / 전체 자료수
+    // 평균비교회수 = 자료탐색을 위한 키의 비교회수 합계 / 전체 자료수
+    cout<<"T1: "<<comp/N<<endl; comp=0;
+
+    T1.traverse(); // 중위 순회하면서 배열을 재배치 시키는 함수 호출
+    BST T3(N+1);
+    for(int i=0;i<N;i++) T3.BSTinsert(A[i],0.1);
+    for(int i=0;i<N;i++) T3.BSTsearch(A[i]);
+    // 평균비교회수 = 자료탐색을 위한 키의 비교회수 합계 / 전체 자료수
+    cout<<"T3: "<<comp/N<<endl; 
 }

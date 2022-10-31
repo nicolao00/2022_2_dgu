@@ -88,11 +88,11 @@ int main(){
     radixSort(C, N);
     
     cout<<"SortedData A: ";
-    for(int i=0;i<=20;i++){cout<<A[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<A[i]<<' ';} cout<<endl;
     cout<<"SortedData B: ";
-    for(int i=0;i<=20;i++){cout<<B[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<B[i]<<' ';} cout<<endl;
     cout<<"SortedData C: ";
-    for(int i=0;i<=20;i++){cout<<C[i]<<' ';} cout<<endl;
+    for(int i=0;i<20;i++){cout<<C[i]<<' ';} cout<<endl;
     cout<<"Compare_Cnt_A " <<comp[0]<< ", DataMove_Cnt_A "<<change[0]<<endl;
     cout<<"Compare_Cnt_B " <<comp[1]<< ", DataMove_Cnt_B "<<change[1]<<endl;
     cout<<"Compare_Cnt_C " <<comp[2]<< ", DataMove_Cnt_C "<<change[2]<<endl;

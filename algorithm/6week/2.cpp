@@ -7,7 +7,7 @@ typedef double infoType;
 
 using namespace std;
 
-int N; double comp=0;  // comp: 비교횟수 저장하는 배열
+int N; double comp=0;  // N: 자료의 크기 comp: 비교횟수 저장하는 변수
 itemType *A; 
 
 void sort(itemType **a, int n){
@@ -38,14 +38,8 @@ class BST {
         ~BST(){}
         infoType BSTsearch(itemType v);
         void BSTinsert(itemType v, infoType info);
+        void BSTdelete(itemType v);
 };
-
-infoType BST::BSTsearch(itemType v) {
-     struct node *x = head->r;
-     z->key = v;  // 아래 반복문을 간결히 만들기 위함
-     while (++comp && v != x->key)  x = (v < x->key) ? x->l : x->r;
-     return x->info;
-} 
 
 void BST::BSTinsert(itemType v, infoType info) {
      struct node *p, *x;
@@ -53,6 +47,30 @@ void BST::BSTinsert(itemType v, infoType info) {
      while (x != z) { p = x; x = (v < x->key) ? x->l : x->r; }
      x = new node(v, info, z, z);
      if (v < p->key) p->l = x; else p->r = x;
+}
+
+void BST::BSTdelete(itemType v) {
+     // p: 삭제할 노드의 전 노드가 들어가있음, t: 삭제하려는 주소 저장, c: 
+     struct node *x = head->r, *p, *t, *c;
+     p=head;
+     while (x!=z && ++comp && x->key !=v)  {
+          p=x; 
+          x = (v < x->key) ? x->l : x->r; 
+     }
+     if(x==z) return;           // 찾는 값이 없는 경우 종료
+     else t=x;                  // x에는 삭제하려는 주소 있음
+
+     if(t->r == z) x=t->l;      // 삭제하려는 주소의 오른쪽 자식이 비어 있으면 x=t->l
+     else if(t->r->l == z) {    // 삭제하려는 주소의 오른쪽 자식 존재하고 그 왼쪽 자식이 비어있을때
+          x=t->r; x->l = t->l; 
+     }
+     else {
+          c=x->r; while(c->l->l !=z) c=c->l;
+          x=c->l; c->l = x->r;
+          x->l=t->l; x->r=t->r;
+     }
+     delete t; 
+     if(++comp && v<p->key) p->l=x; else p->r=x;
 }
 
 int main(){
@@ -66,13 +84,15 @@ int main(){
         tmp[i]=new int[2];
         tmp[i][0]=1+rand()%N;
         tmp[i][1]=i+1;
-    } 
+    }
     
     sort(tmp, N); 
     for(int i=0; i<N; i++) delete[] tmp[i];
     delete[] tmp;
-    for(int i=0;i<N;i++) T2.BSTinsert(A[i], 0.1);
 
-    for(int i=0;i<N;i++) T2.BSTsearch(A[i]);
-    cout<<comp/N; 
+    for(int i=0;i<N;i++) T2.BSTinsert(A[i], 0.1);
+    // A배열의 데이터를 순서대로 10개씩 불러들인뒤, 그중 한개를 랜덤하게 골라 삭제하는 과정
+    for(int i=0;i<N/10;i++) T2.BSTdelete(A[i*10 + rand()%9]); 
+    // 평균비교회수 = 자료탐색을 위한 키의 비교회수 합계 / 전체 자료수
+    cout<<comp/((double)N/10)<<endl; 
 }

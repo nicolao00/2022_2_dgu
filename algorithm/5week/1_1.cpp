@@ -17,56 +17,43 @@ void sort(itemType **a, int n){
     for(int i=0;i<n;i++) B[i]=a[i][1];
 }
 
-class MAKE_HEAP{
-private:
-    itemType *a;
-    int N;
-public:
-    MAKE_HEAP(int max){
-        a = new itemType[max];
-        N = 0;
-    }
-    ~MAKE_HEAP() { delete a; }
-    void swap(itemType a[], int i, int j) {
-        int temp;
-        temp = a[j];    change[idx]++;
-        a[j] = a[i];    change[idx]++;
-        a[i] = temp;    change[idx]++;
-    }
+class MAKE_HEAP {  
+private: 
+      itemType *a; 
+      int N; 
+public: 
+     MAKE_HEAP(int max) { a = new itemType[max]; N = 0; } 
+      ~ MAKE_HEAP() { delete a; }
+      void swap(itemType a[], int i, int j) { 
+           int temp; 
+           temp=a[j]; a[j]=a[i]; a[i]=temp; 
+      }
+      void MakeHeap(itemType a[], int Root, int LastNode) {
+          int Parent, LeftSon, RightSon, Son; itemType RootValue; 
+          Parent = Root; 
+          RootValue = a[Root]; 
+          LeftSon = 2*Parent + 1; 
+          RightSon = LeftSon + 1; 
+          while(LeftSon < LastNode) {
+                if(RightSon <= LastNode && a[LeftSon] < a[RightSon]) {
+                     Son = RightSon; }
+                else Son = LeftSon; 
+                if(RootValue < a[Son]) {
+                     a[Parent] = a[Son]; 
+                     Parent = Son; 
+                     LeftSon = Parent * 2 +1; 
+                     RightSon = LeftSon + 1; 
+                } else break; 
+           }
+           a[Parent] = RootValue; 
+      }
+      void heapsort(itemType a[], int N) {
+           int i; 
+           for (i = N/2; i >= 1; i--)  MakeHeap(a, i-1, N-1); 
+           for (i = N-1; i >= 1; i--) { swap(a, 0, i); MakeHeap(a, 0, i-1); } 
+      } 
+}; 
 
-    void MakeHeap(itemType a[], int Root, int LastNode){
-        int Parent, LeftSon, RightSon, Son;
-        itemType RootValue;
-        Parent = Root;
-        RootValue = a[Root];    change[idx]++;
-        LeftSon = 2 * Parent + 1;               
-        RightSon = LeftSon + 1;
-        while (LeftSon <= LastNode){
-            if (RightSon <= LastNode && ++comp[idx] && a[LeftSon] < a[RightSon])
-                Son = RightSon;
-            else Son = LeftSon;
-            // 오른쪽, 왼쪽 자식중 더 큰 자식을 Son에 넣음
-            if (++comp[idx] && RootValue < a[Son]){
-                a[Parent] = a[Son];     change[idx]++;
-                Parent = Son;
-                LeftSon = Parent * 2 + 1;
-                RightSon = LeftSon + 1;
-            }
-            else break;
-        }
-        
-        a[Parent] = RootValue;  change[idx]++;
-    }
-
-    void heapsort(itemType a[], int N){
-        int i;
-        for (i = N / 2; i >= 0; i--) MakeHeap(a, i, N - 1);
-        for (i = N - 1; i >= 1; i--){
-            swap(a, 0, i);
-            MakeHeap(a, 0, i - 1);
-        }
-    }
-};
 
 int main(){
     cin>>N;
