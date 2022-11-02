@@ -273,40 +273,31 @@ int main()
    make_random(arr, n);
 
    for (int i = 0; i < n; i++)
-   {
       T3.insert(arr[i], 1);
-   }
 
-   cout << build_compare / (double)n << " (T3의 구축 시 평균 비교 회수)\n";
+   cout << build_compare / (double)n << " (T3 make count)\n";
    build_compare = 0;
 
    for (int i = 0; i < 3; i++)
    {
       for (int j = 0; j < n; j++)
-      {
          hash_case[i].insert_table(arr[j]);
-      }
-      cout << build_compare / (double)n << " (Hash Table 크기가 " << hash_case[i].get_size() << "인 경우의 구축 시 평균 비교 횟수)\n";
+      cout << build_compare / (double)n << " (Hash Table size " << hash_case[i].get_size() << "make count)\n";
       build_compare = 0;
    }
 
    cout << endl;
 
-   for (int i = 0; i < n; i++)
-   {
-      T3.search(i);
-   }
+   for (int i = 0; i < n; i++){ T3.search(i); }
 
-   cout << search_compare / (double)n << " (T3의 비교 회수)\n";
+   cout << search_compare / (double)n << " (T3 compare count)\n";
    search_compare = 0;
 
    for (int i = 0; i < 3; i++)
    {
       for (int j = 0; j < n; j++)
-      {
          hash_case[i].search_table(j);
-      }
-      cout << search_compare / (double)n << " (Hash Table 크기가 " << hash_case[i].get_size() << "인 경우 평균 비교 횟수)\n";
+      cout << search_compare / (double)n << " (Hash Table size " << hash_case[i].get_size() << "compare count)\n";
       search_compare = 0;
    }
 }
