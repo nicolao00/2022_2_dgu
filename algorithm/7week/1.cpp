@@ -33,10 +33,10 @@ class RBT {
         struct node *head, *tail, *x, *p, *g, *gg, *z;
         struct node *rotate(itemType k, struct node *y) { 
             struct node *high, *low; 
-            high = (++makeComp && k < y->key) ? y->l : y->r;  
-            if (++makeComp && k < high->key) { low = high->l; high->l = low->r; low->r = high; } 
+            high = (++makeComp && k < y->key) ? y->l : y->r; // 트리 구축시 키 비교 발생 
+            if (++makeComp && k < high->key) { low = high->l; high->l = low->r; low->r = high; } // 트리 구축시 키 비교 발생 
             else { low = high->r; high->r = low->l; low->l = high; } 
-            if (++makeComp && k < y->key) y->l = low; else y->r = low; 
+            if (++makeComp && k < y->key) y->l = low; else y->r = low; // 트리 구축시 키 비교 발생 
             return low; 
         }
 
@@ -56,11 +56,11 @@ void RBT::RBTinsert(itemType k, infoType info) {
     x = head; p = head; g = head; 
     while (x != z) { 
        gg = g; g = p; p = x; 
-        x = (++makeComp && k < x->key) ? x->l :  x->r;  // 요기
+        x = (++makeComp && k < x->key) ? x->l :  x->r;  // 트리 구축시 키 비교 발생 
         if (x->l->tag && x->r->tag) split(k); 
     } 
     x = new node(k, info, red, z, z); 
-    if (++makeComp && k < p->key) p->l = x; else p->r = x;  // 요기
+    if (++makeComp && k < p->key) p->l = x; else p->r = x;  // 트리 구축시 키 비교 발생 
     split(k); head->r->tag = black; 
 } 
 
@@ -68,7 +68,7 @@ void RBT::split(itemType k) {
     x->tag = red; x->l->tag = black; x->r->tag = black; 
     if (p->tag) { 
         g->tag = red; 
-        if (++makeComp && k<g->key != k<p->key) p = rotate(k, g); 
+        if (++makeComp && k<g->key != k<p->key) p = rotate(k, g); // 트리 구축시 키 비교 발생 
         x = rotate(k, gg); 
         x->tag = black; 
     } 
@@ -78,7 +78,7 @@ infoType RBT::RBTsearch(itemType k) {
     // Red-Black Tree의 값을 탐색 기능 구현
     struct node *x = head->r;
      z->key = k;  // 아래 반복문을 간결히 만들기 위함
-     // 찾으려는 값(v)와 x의 값을 비교 발생  => ++comp
+     // 찾으려는 값(k)와 x의 값을 비교 발생  => ++comp
      while (++comp && k != x->key)  x = (k < x->key) ? x->l : x->r;
      return x->Info;
 }
