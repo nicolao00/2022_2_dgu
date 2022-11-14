@@ -9,10 +9,11 @@ ifstream fin; ofstream fout; int locctr; // fin:SRCFILE / fout: INTFILE
 ifstream fop; ofstream symtab; 
 
 //String을 해쉬테이블의 key로 사용하므로 문자열의 아스키값을 다 더한값을 씀.
-int make_key(string str){
+int hashFunction(string str){
     int key=0;
     for(int i=0;i<str.length();i++) key+=str[i];
-    return key;
+    // 해쉬함수 만들기. 여기서는 단순히 key를 버켓 길이로 나눈 나머지로 함수를 만듦.
+    return key%BUCKET_SIZE;
 }
 
 // 노드 구조체 선언
@@ -29,34 +30,23 @@ struct bucket{
     int count;          // 버켓에 들어있는 노드의 개수
 };
 
-// 해쉬테이블 삽입될 때 새로 노드를 생성해주는 함수(초기화)
+// 새로운 노드의 생성자 역할 (초기화 담당)
 struct node* createNode(string label, int address, int flag){
-    struct node* newNode;
-    newNode = (struct node *)malloc(sizeof(struct node));
-    
-    newNode->label = label;
-    newNode->address = address;
-    newNode->flag = flag;
-    newNode->next = NULL;
-
+    struct node* newNode = new node();
+    newNode->label = label; newNode->address = address;
+    newNode->flag = flag; newNode->next = NULL;
     return newNode;
 }
 
-// 해쉬함수 만들기. 여기서는 단순히 key를 버켓 길이로 나눈 나머지로 함수를 만듦.
-int hashFunction(int key){
-    return key%BUCKET_SIZE;
-}
-
-// 새로 키 추가하는 함수
+// 해시테이블에 값을 추가하는 함수
 void add(string label, int address, int flag){
-    // 어느 버켓에 추가할지 인덱스를 계산
-    int hashIndex = hashFunction(make_key(label));
-    
     struct node* newNode = createNode(label, address, flag);
-    // 계산한 인덱스의 버켓에 아무 노드도 없을 경우
+    int hashIndex = hashFunction(label);
+
+    // 키값에 해당하는 테이블에 노드가 아무것도 없을 때
     if (hashTable[hashIndex].count == 0){
         hashTable[hashIndex].count = 1;
-        hashTable[hashIndex].head = newNode; // head를 교체
+        hashTable[hashIndex].head = newNode; // head로 지정
     }
     // 버켓에 다른 노드가 있을 경우 한칸씩 밀고 내가 헤드가 된다(실제로는 포인터만 바꿔줌)
     else{
@@ -68,7 +58,7 @@ void add(string label, int address, int flag){
 
 // 키를 주고 존재하면 flag=1로 처리
 void fixFlag(string label){
-    int hashIndex = hashFunction(make_key(label));
+    int hashIndex = hashFunction(label);
     struct node* node = hashTable[hashIndex].head;
     int flag = 0;
     while (node != NULL){
@@ -81,27 +71,27 @@ void fixFlag(string label){
 }
 // 키값에 해당하는 노드가 존재하는지 탐색
 int is_exist(string label){
-    int hashIndex = hashFunction(make_key(label));
+    int hashIndex = hashFunction(label);
     struct node* node = hashTable[hashIndex].head;
-    int flag = 0;
+    int exist = 0;
     while (node != NULL){
         if (node->label == label){
-            flag=1;
-            break;
+            exist=1; break;
         }
         node = node->next;
     }
-    if(flag==1) return 1; // 값을 찾았다면
+    if(exist==1) return 1; // 값을 찾았다면
     else return 0;
 }
 
 // 키로 노드를 찾아서 symtab에 넣어주는 함수
 void search(string label){
-    int hashIndex = hashFunction(make_key(label));
+    int hashIndex = hashFunction(label);
     struct node* node = hashTable[hashIndex].head;
     while (node != NULL){
         if (node->label == label){
             symtab << node->label <<"    "<< hex<< node->address<<"    " << node->flag<<endl;
+            //fprint("%6x", node->address); // 이렇게하면 열 맞출 수 있을듯?
             break;
         }
         node = node->next;
@@ -124,9 +114,8 @@ int search_op(string str, string operand){
 
 int main(int argc, char *argv[]){
     if (argc == 3){
-        fin.open(argv[1]); fout.open(argv[2]); 
-        fop.open("Optab.txt"); symtab.open("Symtab.txt");
-        hashTable = (struct bucket *)malloc(BUCKET_SIZE * sizeof(struct bucket));
+        fin.open(argv[1]); fout.open(argv[2]); fop.open("Optab.txt"); symtab.open("Symtab.txt");
+        hashTable = new bucket[BUCKET_SIZE];
         locctr=0; string srcStr, label, opcode, oper;
 
         if (!fin.is_open() || !fout.is_open() || !fop.is_open() || !symtab.is_open()){

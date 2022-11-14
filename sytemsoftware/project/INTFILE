@@ -1,0 +1,44 @@
+1000  test5    start   1000              
+1000  first    j       begin             1000                          
+1003  five     word    5                 3                             
+1006  xxx      resw    1                 6                             
+1009  begin    lda     zero              9                             
+100c           ldx     zero              c                             
+100f  loop     jsub    getc              f                             
+1012           mul     shift             12                            
+1015           sta     atemp             15                            
+1018           jsub    getc              18                            
+101b           add     atemp             1b                            
+101e           stch    exaddr,x          1e                            
+1021           tix     five              21                            
+1024           j       loop              24                            
+1027  getc     stx     temp              27                            
+102a           ldx     incnt             2a                            
+102d           lda     incnt             2d                            
+1030           add     one               30                            
+1033           sta     incnt             33                            
+1036           ldch    indev,x           36                            
+1039           comp    eof               39                            
+103c           jeq     exaddr            3c                            
+103f           comp    asciz             3f                            
+1042           jlt     getc              42                            
+1045           sub     asciz             45                            
+1048           comp    ten               48                            
+104b           jlt     return            4b                            
+104e           sub     seven             4e                            
+1051  return   ldx     temp              51                            
+1054           rsub                      54                            
+1057  zero     word    0                                               
+105a  eof      word    63                                              
+105d  temp     resw    1                                               
+1060  incnt    word    0                                               
+1063  indev    byte    c'0010030C1006'                                 
+106f           byte    c'000005FFFFFF?'                                
+107c  shift    word    16                                              
+107f  atemp    resw    1                                               
+1082  one      word    1                                               
+1085  asciz    word    48                                              
+1088  ten      word    10                                              
+108b  seven    word    7                                               
+108e  exaddr   resb    12                                              
+               end     first                                           
