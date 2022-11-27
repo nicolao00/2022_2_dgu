@@ -1,0 +1,73 @@
+#wrap {
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#head {
+    width: 100%;
+    height: auto;
+    font-size: 25px;
+    font-weight: 700;
+    padding: 5px 0px 15px 70px;
+}
+
+#main{
+    width:100%; height: 100%;
+    background-color: #FFF7DE;
+    margin-top: 30px; padding-top: 30px;
+}
+
+#title{
+    width:100%;
+    background-color: #ffde82;
+    font-size:20px; font-weight: 700;
+    padding: 5px 10px 5px 30px;
+}
+
+#mainPic{
+    width:30%;
+    float:left;
+}
+
+input[type=text]{
+    width:100%; height: 30px;
+    background-color: #ffde82;
+    border-width: 0;
+    border-radius: 6px;
+    padding-left: 10px;
+}
+
+table[name=first]{
+    width:60%;
+    padding: 0% 5% 0% 5%;
+    float:left;
+}
+
+table{
+    width:100%;
+    padding: 0% 15% 0% 5%;
+}
+
+.type_name{
+    min-width: 100px;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.type-context{
+    width:100%;
+}
+
+td{
+    padding-right: 30px;
+}
+
+textarea{
+    width: 100%; height:100px;
+    background-color: #ffde82;
+    border-width: 0;
+    border-radius: 6px;
+    padding-left: 10px;
+}

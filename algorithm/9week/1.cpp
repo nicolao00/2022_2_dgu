@@ -2,10 +2,13 @@
 #define Nmax 100
 using namespace std;
 
+// 점 이름, 좌표, 기준점과 이루는 각도
 struct point { char c; int x, y; float angle;};
+// 선분을 이룰 두 점
 struct line { struct point p1, p2; };
+// 다각형의 꼭짓점
 struct point polygon[Nmax]; 
-int comp, angleCnt;
+int comp, angleCnt; // 각의 비교횟수, 수평각 계산 횟수
 
 void swap(int i, int j){
     point temp = polygon[i];
@@ -46,6 +49,7 @@ void heapsort(int N){
     }
 }
 
+// 기준점과 다각형의 꼭짓점의 각도를 계산해서 반환하는 함수
 float ComputeAngle(struct point p1, struct point p2){ 
     int dx, dy, ax, ay;
     float t;
@@ -54,8 +58,8 @@ float ComputeAngle(struct point p1, struct point p2){
     t = (ax+ay == 0) ? 0 : (float) dy/(ax+ay); ++angleCnt;
     if (dx < 0) {
         t = 2-t;
-    } 
-     else if (dy < 0) { 
+    }
+    else if (dy < 0) { 
         t = 4+t;
     }
     return t*90.0;
@@ -65,6 +69,7 @@ int main(){
     int size; cin>>size; int minX=100, minY=100; int standIdx=0; comp=0; angleCnt=0;
     for(int i=0;i<size;i++){
         cin >> polygon[i].c >> polygon[i].x >> polygon[i].y;
+        // 기준점을 정하는 과정 (y가 제일 작거나, y가 같은 경우 x가 최소인 점을 선정)
         if(minY > polygon[i].y || (minY == polygon[i].y && minX > polygon[i].x)){
             minY=polygon[i].y; minX=polygon[i].x; standIdx=i;
         }
