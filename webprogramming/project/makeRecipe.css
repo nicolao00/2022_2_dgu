@@ -46,12 +46,12 @@ table[name=first]{
 }
 
 table{
-    width:100%;
+    width:100%; margin-bottom: 5%;
     padding: 0% 15% 0% 5%;
 }
 
 .type_name{
-    min-width: 100px;
+    width: 100px;
     font-weight: 700;
     font-size: 20px;
 }
