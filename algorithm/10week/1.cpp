@@ -1,6 +1,9 @@
 #include <iostream>
-#include <string>
+#include <cstring>
 using namespace std;
+
+const int q = 33554393;
+const int d = 26;
 
 void brutesearch(string p, string a)
 {
@@ -22,8 +25,6 @@ void brutesearch(string p, string a)
    cout << count;
 }
 
-const int q = 33554393;
-const int d = 26;
 void rksearch(string p, string t)
 {
    int count = 0;
@@ -82,13 +83,9 @@ int initSP(string p)
    for (i = 1, j = -1; i <= m - 1; i++)
    {
       while ((j >= 0) &&++count&& (p[j + 1] != p[j]))
-      {
          j = SP[j];
-      }
       if (++count&&p[j + 1] == p[i])
-      {
          j++;
-      }
       SP[i] = j;
    } return count;
 }
@@ -101,13 +98,8 @@ void kmpsearch(string p, string a)
    for (i = 0, j = -1; i <= n - 1; i++)
    {
       while ((j >= 0) && ++count&& (p[j + 1] != a[i]))
-      {
          j = SP[j];
-      }
-      if (++count&&p[j + 1] == a[i])
-      {
-         j++;
-      }
+      if (++count&&p[j + 1] == a[i]) j++;
       if (j == m - 1)
       {
          cout << i - j << ", ";
@@ -126,11 +118,11 @@ int main()
    brutesearch(p, t);
    cout << "(Brute-Force)" << endl;
 
-   rksearch(p, t);
-   cout << "(Rabin-Karp)" << endl;
-
    kmpsearch(p, t);
    cout << "(KMP)" << endl;
+
+   rksearch(p, t);
+   cout << "(Rabin-Karp)" << endl;
 
    return 0;
 }
